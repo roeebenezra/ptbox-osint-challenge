@@ -10,6 +10,9 @@ from app.models.scan import Scan
 from sqlalchemy import select
 from fastapi import Path
 import json
+from fastapi.responses import StreamingResponse
+from io import BytesIO
+import openpyxl
 
 
 router = APIRouter(prefix="/api")
@@ -69,3 +72,51 @@ async def get_scan(scan_id: int = Path(...), db: AsyncSession = Depends(get_db))
         raise HTTPException(status_code=404, detail="Scan not found")
 
     return scan.to_dict()
+
+
+@router.get("/scan/{scan_id}/export")
+async def export_scan(scan_id: int, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Scan).where(Scan.id == scan_id))
+    scan = result.scalar_one_or_none()
+
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+
+    try:
+        # Parse stored JSON
+        artifacts = json.loads(scan.artifacts_json)
+
+        # Create Excel workbook
+        wb = openpyxl.Workbook()
+        subdomains = artifacts.get("subdomains", [])
+        emails = artifacts.get("emails", [])
+
+        # Sheet 1: Subdomains
+        ws1 = wb.active
+        ws1.title = "Subdomains"
+        ws1.append(["Subdomain"])
+        for sub in subdomains:
+            ws1.append([sub])
+
+        # Sheet 2: Emails
+        if emails:
+            ws2 = wb.create_sheet(title="Emails")
+            ws2.append(["Email"])
+            for email in emails:
+                ws2.append([email])
+
+        # Save to buffer
+        buffer = BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+
+        filename = f"scan_{scan.id}_{scan.domain}.xlsx"
+        return StreamingResponse(
+            buffer,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        print("❌ Export error:", str(e))
+        raise HTTPException(status_code=500, detail="Failed to generate Excel file")
