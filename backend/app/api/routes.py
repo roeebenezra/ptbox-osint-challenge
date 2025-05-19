@@ -8,6 +8,7 @@ from datetime import datetime
 from app.db import get_db
 from app.models.scan import Scan
 from sqlalchemy import select
+from fastapi import Path
 import json
 
 
@@ -57,3 +58,14 @@ async def get_all_scans(db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Scan).order_by(Scan.started_at.desc()))
     scans = result.scalars().all()
     return [scan.to_dict() for scan in scans]
+
+
+@router.get("/scan/{scan_id}")
+async def get_scan(scan_id: int = Path(...), db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Scan).where(Scan.id == scan_id))
+    scan = result.scalar_one_or_none()
+
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+
+    return scan.to_dict()
