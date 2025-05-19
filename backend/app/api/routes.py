@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
 from app.db import get_db
 from app.models.scan import Scan
+from sqlalchemy import select
 import json
 
 
@@ -50,3 +51,9 @@ async def scan_domain(payload: ScanRequest, db: AsyncSession = Depends(get_db)):
     await db.refresh(scan)
 
     return scan.to_dict()
+
+@router.get("/scans")
+async def get_all_scans(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Scan).order_by(Scan.started_at.desc()))
+    scans = result.scalars().all()
+    return [scan.to_dict() for scan in scans]
