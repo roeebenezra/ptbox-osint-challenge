@@ -18,7 +18,7 @@ This is a self-contained OSINT web application built for the PTBOX development c
 ## 📦 Quick Start (Three Commands)
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
+git clone https://github.com/<roeebenezra>/<ptbox-osint-challenge>.git
 cd ptbox-osint
 docker compose up --build
 ```

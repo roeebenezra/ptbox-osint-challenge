@@ -43,7 +43,7 @@ docker compose build
 
 ## 📬 Submission
 
-* GitHub Repo: [https://github.com/](https://github.com/)<your-username>/<repo-name>
+* GitHub Repo: [https://github.com/](https://github.com/)<roeebenezra>/<ptbox-osint-challenge>
 * Docker image: *optional*
 * All endpoints tested and return expected results
 
