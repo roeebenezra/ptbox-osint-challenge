@@ -40,7 +40,7 @@ A full-stack web application for passive open-source intelligence gathering usin
 
 ## 📦 Project Structure
 
-
+```
 ptbox-osint/
 ├── backend/               # FastAPI backend
 │   └── app/               # Routes, models, scanner logic
@@ -50,7 +50,7 @@ ptbox-osint/
 │   └── Dockerfile
 ├── docker-compose.yml     # Orchestrates backend/frontend
 └── README.md
-
+```
 
 ---
 
