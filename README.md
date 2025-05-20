@@ -1,4 +1,3 @@
-```markdown
 # PTBOX OSINT Scanner
 
 A full-stack web application for passive open-source intelligence gathering using domain scans. Built as part of a development challenge, this project integrates a FastAPI backend and a React-based frontend with Dockerized deployment.
@@ -41,7 +40,6 @@ A full-stack web application for passive open-source intelligence gathering usin
 
 ## 📦 Project Structure
 
-```
 
 ptbox-osint/
 ├── backend/               # FastAPI backend
@@ -53,7 +51,6 @@ ptbox-osint/
 ├── docker-compose.yml     # Orchestrates backend/frontend
 └── README.md
 
-````
 
 ---
 
