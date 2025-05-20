@@ -5,7 +5,7 @@ async def run_theharvester(domain: str) -> Dict[str, Any]:
     proc = await asyncio.create_subprocess_exec(
         "theHarvester",
         "-d", domain,
-        "-b", "crtsh,anubis", # edited to use only crtsh and anubis, change it later if needed
+        "-b", "all",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE
     )

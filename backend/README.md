@@ -39,3 +39,4 @@ Visit: [http://localhost:8000/docs](http://localhost:8000/docs) to test the API.
   * `GET /api/scan/{id}` – View scan details
   * `GET /api/scan/{id}/export` – Download results as Excel
 * JSON logging, safe subprocess usage, and Dockerized
+
