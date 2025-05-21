@@ -31,10 +31,11 @@ async def run_amass(domain: str) -> Dict[str, Any]:
 
     return {
         "tool": "amass",
-        "stdout": stdout.decode(),
-        "stderr": stderr.decode(),
+        "stdout": stdout.decode().strip(),
+        "stderr": stderr.decode().strip(),
         "returncode": proc.returncode
     }
+
 
 async def run_parallel_scans(domain: str):
     harvester_task = asyncio.create_task(run_theharvester(domain))

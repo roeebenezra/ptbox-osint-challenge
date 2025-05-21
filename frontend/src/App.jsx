@@ -97,7 +97,7 @@ function App() {
       alignItems: "flex-start"
     }}>
       <div style={{ width: "100%", maxWidth: "800px" }}>
-        <h1>PTBOX OSINT Scanner</h1>
+        <h1>OSINT Scanner</h1>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
           <input
             type="text"
