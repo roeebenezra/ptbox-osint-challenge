@@ -139,7 +139,16 @@ function App() {
         {response && (
           <div style={{ marginTop: "2rem" }}>
             <h2>Latest Scan Result</h2>
-            <pre>{JSON.stringify(response, null, 2)}</pre>
+            <pre style={{
+              backgroundColor: "#1e1e1e",
+              color: "#dcdcdc",
+              padding: "1rem",
+              borderRadius: "8px",
+              overflowX: "auto",
+              fontFamily: "monospace",
+              whiteSpace: "pre-wrap",
+              wordWrap: "break-word"
+            }}>{JSON.stringify(response, null, 2)}</pre>
           </div>
         )}
 

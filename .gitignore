@@ -18,4 +18,5 @@ node_modules/
 .DS_Store
 
 # Ignore SQLite DB
-scans.db
+*.db
+*.sqlite

@@ -20,9 +20,10 @@ class Scan(Base):
         return {
             "id": self.id,
             "domain": self.domain,
-            "started_at": self.started_at.isoformat(),
-            "finished_at": self.finished_at.isoformat(),
-            "summary": json.loads(self.summary),
-            "artifacts": json.loads(self.artifacts_json),
-            "raw": json.loads(self.raw_json)
+            "started_at": self.started_at.isoformat() if self.started_at else None,
+            "finished_at": self.finished_at.isoformat() if self.finished_at else None,
+            "summary": json.loads(self.summary) if self.summary else None,
+            "artifacts": json.loads(self.artifacts_json) if self.artifacts_json else None,
+            "raw": json.loads(self.raw_json) if self.raw_json else None
         }
+        

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from sqlalchemy.exc import SQLAlchemyError
 from pydantic import BaseModel
 from app.services.scanner import run_parallel_scans
 from app.utils.helpers import parse_scan_results
@@ -60,7 +61,7 @@ async def scan_domain(payload: ScanRequest, db: AsyncSession = Depends(get_db)):
 
     db.add(scan)
     await db.commit()
-    await db.refresh(scan)
+    await db.refresh(scan)  
 
     # Log the scan details
     logger.info("Scan completed successfully", extra={"scan_id": scan.id})
@@ -71,19 +72,21 @@ async def scan_domain(payload: ScanRequest, db: AsyncSession = Depends(get_db)):
 # Get all scans endpoint
 @router.get("/scans")
 async def get_all_scans(db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(Scan).order_by(Scan.started_at.desc()))
-    scans = result.scalars().all()
-    
-    if not scans:
-        # Log the error
-        logger.error("No scans found")
-        raise HTTPException(status_code=404, detail="No scans found")
-    
-    # Log the successful fetch
-    logger.info("Fetched all scans", extra={"scan_count": len(scans)})
-    
-    # Convert to list of dictionaries
-    return [scan.to_dict() for scan in scans]
+    try:
+        result = await db.execute(select(Scan).order_by(Scan.started_at.desc()))
+        scans = result.scalars().all()
+        
+        if not scans:
+            logger.info("No scans found in history")
+        else:
+            logger.info("Fetched all scans", extra={"scan_count": len(scans)})
+        
+        return [scan.to_dict() for scan in scans]
+
+
+    except SQLAlchemyError as e:
+        logger.error("Database error occurred while fetching scans", extra={"error": str(e)})
+        raise HTTPException(status_code=500, detail="Failed to connect to scan history database")
 
 
 # Get scan by ID endpoint
