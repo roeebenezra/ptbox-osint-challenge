@@ -1,6 +1,7 @@
 import logging
 import json
 
+# This module configures the logger for the application.
 class JSONFormatter(logging.Formatter):
     def format(self, record):
         log_record = {

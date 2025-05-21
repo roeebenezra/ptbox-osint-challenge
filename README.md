@@ -76,6 +76,19 @@ docker compose up --build
 
 ---
 
+## 🔗 Public Docker Images
+
+- Backend: [roibe/ptbox-backend](https://hub.docker.com/r/roibe/ptbox-backend)
+- Frontend: [roibe/ptbox-frontend](https://hub.docker.com/r/roibe/ptbox-frontend)
+
+```bash
+docker pull roibe/ptbox-backend
+docker pull roibe/ptbox-frontend
+docker compose up
+```
+
+---
+
 ## 📤 Export Scan Results
 
 * After viewing scan results, click **Download Excel** to export.
